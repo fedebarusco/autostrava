@@ -1,17 +1,17 @@
 name: Autostrava
 
-# on:
-#   schedule:
-#     - cron: "30 5-23/6 * * *"
-#   workflow_dispatch:
-
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - .github/workflows/autostrava.yml
-      - autostrava/**
+  schedule:
+    - cron: "30 6-23/3 * * *"
+  workflow_dispatch:
+
+# on:
+#   push:
+#     branches:
+#       - main
+#     paths:
+#       - .github/workflows/autostrava.yml
+#       - autostrava/**
 
 env:
   BASE_URL: https://www.strava.com/
