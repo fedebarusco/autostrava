@@ -1,11 +1,20 @@
-name: Give Strava Kudos
+name: Autostrava
+
+# on:
+#   schedule:
+#     - cron: "30 5-23/6 * * *"
+#   workflow_dispatch:
 
 on:
-  schedule:
-    - cron: "30 5-23/6 * * *"
-  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/autostrava.yml
+      - autostrava/**
 
 env:
+  BASE_URL: https://www.strava.com/
   STRAVA_EMAIL: ${{ secrets.STRAVA_EMAIL }}
   STRAVA_PASSWORD: ${{ secrets.STRAVA_PASSWORD }}
 jobs:
@@ -20,5 +29,5 @@ jobs:
           cache: 'pip'
       - run: pip install -r requirements.txt
       - run: playwright install
-      - run: python give_kudos.py
+      - run: python -m autostrava
         
