@@ -1,0 +1,10 @@
+services:
+  app:
+    build:
+      context: .
+      target: dev
+    command: tail -f /dev/null
+    volumes:
+      - ./:/app
+    env_file:
+      - .envrc

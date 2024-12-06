@@ -2,7 +2,6 @@ import os
 import time
 
 from playwright.sync_api import sync_playwright
-from autostrava.logger import logger
 
 
 class KudosGiver:
@@ -60,11 +59,7 @@ class KudosGiver:
         """
         Limit activities count by GET parameter and get own profile ID.
         """
-        self.page.goto(
-            os.path.join(
-                os.environ.get("BASE_URL"), f"dashboard?num_entries={self.num_entries}"
-            )
-        )
+        self.page.goto(os.path.join(os.environ.get("BASE_URL"), f"dashboard?num_entries={self.num_entries}"))
 
         ## Scrolling for lazy loading elements.
         for _ in range(5):
@@ -112,20 +107,14 @@ class KudosGiver:
                     participant = web_feed.get_by_test_id("entry-header").nth(j)
                     # ignore own activities
                     if not self.is_participant_me(participant):
-                        kudos_container = web_feed.get_by_test_id(
-                            "kudos_comments_container"
-                        ).nth(j)
+                        kudos_container = web_feed.get_by_test_id("kudos_comments_container").nth(j)
                         button = self.find_unfilled_kudos_button(kudos_container)
-                        given_count += self.click_kudos_button(
-                            unfilled_kudos_container=button
-                        )
+                        given_count += self.click_kudos_button(unfilled_kudos_container=button)
             else:
                 # ignore own activities
                 if not self.is_participant_me(web_feed):
                     button = self.find_unfilled_kudos_button(web_feed)
-                    given_count += self.click_kudos_button(
-                        unfilled_kudos_container=button
-                    )
+                    given_count += self.click_kudos_button(unfilled_kudos_container=button)
         print(f"\nKudos given: {given_count}")
         return given_count
 
@@ -188,9 +177,7 @@ class KudosGiver:
         except Exception as _:
             pass
         web_feed_entry_locator = self.page.locator(self.web_feed_entry_pattern)
-        self.locate_kudos_buttons_and_maybe_give_kudos(
-            web_feed_entry_locator=web_feed_entry_locator
-        )
+        self.locate_kudos_buttons_and_maybe_give_kudos(web_feed_entry_locator=web_feed_entry_locator)
         self.browser.close()
 
 
