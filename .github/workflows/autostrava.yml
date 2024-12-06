@@ -17,6 +17,7 @@ env:
   BASE_URL: https://www.strava.com/
   STRAVA_EMAIL: ${{ secrets.STRAVA_EMAIL }}
   STRAVA_PASSWORD: ${{ secrets.STRAVA_PASSWORD }}
+  STRAVA_PROFILE_ID: ${{ secrets.STRAVA_PROFILE_ID }}
 jobs:
   run-kudos-cron:
     runs-on: ubuntu-20.04
