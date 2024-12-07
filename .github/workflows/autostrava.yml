@@ -44,9 +44,8 @@ jobs:
 
       - run: poetry run ruff check .
 
-      - run: playwright install
-
-      - run: playwright install-deps 
+      - name: Ensure browsers are installed
+        run: python -m playwright install --with-deps
 
       - run: python -m autostrava
         
