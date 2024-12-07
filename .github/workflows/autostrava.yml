@@ -43,6 +43,9 @@ jobs:
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
+      - name: Install Playwright through Poetry
+        run: poetry install playwright
+
       - run: poetry run ruff format --check .
 
       - run: poetry run ruff check .
