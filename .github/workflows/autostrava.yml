@@ -24,13 +24,6 @@ jobs:
         with:
           python-version: ${{ env.PYTHON_VERSION }}
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: lts/*
-
-      - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
-
       - uses: abatilo/actions-poetry@v2.3.0
         with:
           poetry-version: ${{ env.POETRY_VERSION }}
@@ -46,6 +39,9 @@ jobs:
 
       - run: poetry install
         if: steps.poetry-cache.outputs.cache-hit != 'true'
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
 
       - run: poetry run ruff format --check .
 
