@@ -5,50 +5,29 @@ on:
     - cron: "30 6-23/3 * * *"
   workflow_dispatch:
 
+# on:
+#   push:
+#     branches:
+#       - main
+#     paths:
+#       - .github/workflows/autostrava.yml
+#       - autostrava/**
+
 env:
-  PYTHON_VERSION: 3.12.7
-  POETRY_VERSION: 1.8.3
   BASE_URL: https://www.strava.com/
   STRAVA_EMAIL: ${{ secrets.STRAVA_EMAIL }}
   STRAVA_PASSWORD: ${{ secrets.STRAVA_PASSWORD }}
   STRAVA_PROFILE_ID: ${{ secrets.STRAVA_PROFILE_ID }}
 jobs:
   run-kudos-cron:
-    name: Validate python package
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v3
-
+      - uses: actions/checkout@v3 
       - uses: actions/setup-python@v4
         with:
-          python-version: ${{ env.PYTHON_VERSION }}
-
-      - uses: abatilo/actions-poetry@v2.3.0
-        with:
-          poetry-version: ${{ env.POETRY_VERSION }}
-
-      - run: poetry config virtualenvs.in-project true
-
-      - id: poetry-cache
-        name: Cache poetry environment
-        uses: actions/cache@v3
-        with:
-          path: .venv
-          key: python-${{ env.PYTHON_VERSION }}-poetry-${{ env.POETRY_VERSION }}-lock-${{ hashFiles('poetry.lock') }}
-
-      - run: poetry install
-        if: steps.poetry-cache.outputs.cache-hit != 'true'
-
-      - name: Install Playwright Browsers
-        run: npx playwright install --with-deps
-
-      - name: Install Playwright through Poetry
-        run: poetry install playwright
-
-      - run: poetry run ruff format --check .
-
-      - run: poetry run ruff check .
-
+          python-version: '3.9.10'
+          cache: 'pip'
+      - run: pip install -r requirements.txt
+      - run: playwright install
       - run: python -m autostrava
-        
